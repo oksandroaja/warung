@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaroengSandro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="toast"></div>
+
+  <section id="authPage" class="auth-page">
+    <div class="auth-decoration"></div>
+    <div class="auth-card">
+      <div class="brand big-brand"><span>🍜</span> Waroeng<span>Sandro</span></div>
+      <p class="eyebrow">Warung digital pilihan keluarga</p>
+      <h1 id="authTitle">Selamat datang kembali</h1>
+      <p class="muted" id="authSubtitle">Login untuk mulai berbelanja.</p>
+
+      <form id="authForm">
+        <label id="authNameLabel" class="hidden">Nama Asli
+          <input id="authName" type="text" placeholder="Masukkan nama asli">
+        </label>
+        <label>Email
+          <input id="authEmail" type="email" placeholder="nama@email.com" required>
+        </label>
+        <label>Password
+          <input id="authPassword" type="password" placeholder="Minimal 6 karakter" required>
+        </label>
+        <button class="primary full" type="submit" id="authButton">Masuk ke Waroeng</button>
+      </form>
+
+      <p class="switch-auth">
+        <span id="switchText">Belum punya akun?</span>
+        <button id="switchAuth" class="link-button">Daftar sekarang</button>
+      </p>
+      <small class="admin-hint">Admin demo: sicantik.109888@gmail.com · admin123</small>
+    </div>
+  </section>
+
+  <section id="appPage" class="hidden">
+    <header class="topbar">
+      <a class="brand" href="#">🍜 Waroeng<span>Sandro</span></a>
+      <nav>
+        <button class="nav-btn active" data-page="shopPage">Belanja</button>
+        <button class="nav-btn" data-page="ordersPage">Pesanan Saya</button>
+        <button class="nav-btn admin-only hidden" data-page="adminPage">Panel Admin</button>
+      </nav>
+      <div class="user-actions">
+        <button class="cart-button" id="cartButton">🛒 <b id="cartCount">0</b></button>
+        <button class="user-menu" id="logoutButton">Keluar</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="shopPage" class="page">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">Segar • Hemat • Terpercaya</p>
+            <h1>Belanja kebutuhanmu,<br><em>tanpa ribet.</em></h1>
+            <p class="hero-copy">Pesan kebutuhan harian dari WaroengSandro. Ambil langsung dan tunjukkan nomor pesananmu ke kasir.</p>
+            <a href="#productGrid" class="primary hero-button">Lihat Produk ↓</a>
+          </div>
+          <div class="hero-art">🛍️</div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Pilihan hari ini</p>
+            <h2>Produk Terlaris</h2>
+          </div>
+          <input id="searchProduct" class="search" type="search" placeholder="Cari produk...">
+        </div>
+        <div id="productGrid" class="product-grid"></div>
+      </section>
+
+      <section id="ordersPage" class="page hidden">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Riwayat transaksi</p>
+            <h2>Pesanan Saya</h2>
+          </div>
+        </div>
+        <div id="myOrders" class="orders-list"></div>
+      </section>
+
+      <section id="adminPage" class="page hidden">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Pusat kendali</p>
+            <h2>Panel Admin</h2>
+          </div>
+          <button class="primary" id="addProductButton">＋ Tambah Produk</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><span>Pesanan</span><strong id="statOrders">0</strong></div>
+          <div class="stat"><span>Pelanggan</span><strong id="statUsers">0</strong></div>
+          <div class="stat"><span>Produk</span><strong id="statProducts">0</strong></div>
+          <div class="stat"><span>Hutang Aktif</span><strong id="statDebt">Rp0</strong></div>
+        </div>
+
+        <div class="admin-columns">
+          <div class="panel">
+            <div class="panel-title"><h3>Pesanan Masuk</h3></div>
+            <div id="allOrders" class="admin-list"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title"><h3>Data Pembeli</h3></div>
+            <div id="allUsers" class="admin-list"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><h3>Kelola Stok Barang</h3></div>
+          <div id="adminProducts" class="inventory-list"></div>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <aside id="cartDrawer" class="drawer">
+    <div class="drawer-head"><h2>Keranjang</h2><button id="closeCart">×</button></div>
+    <div id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="total-line"><span>Total</span><strong id="cartTotal">Rp0</strong></div>
+      <button class="primary full" id="checkoutButton">Lanjut Checkout</button>
+    </div>
+  </aside>
+  <div id="overlay" class="overlay"></div>
+
+  <div id="nameModal" class="modal-wrap hidden">
+    <div class="modal">
+      <p class="eyebrow">Lengkapi akun</p>
+      <h2>Siapa nama Anda?</h2>
+      <p class="muted">Nama asli akan digunakan pada data dan nomor pesanan Anda.</p>
+      <form id="nameForm">
+        <label>Nama Asli
+          <input id="accountName" type="text" required placeholder="Contoh: Sandro Wijaya">
+        </label>
+        <button class="primary full" type="submit">Simpan Nama</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="checkoutModal" class="modal-wrap hidden">
+    <div class="modal">
+      <button class="modal-close" data-close="checkoutModal">×</button>
+      <p class="eyebrow">Langkah terakhir</p>
+      <h2>Konfirmasi Pesanan</h2>
+      <div id="checkoutSummary"></div>
+      <label>Metode Pembayaran
+        <select id="paymentMethod">
+          <option value="cod">Bayar di tempat</option>
+          <option value="debt">Hutang</option>
+        </select>
+      </label>
+      <label>Catatan untuk penjual (opsional)
+        <textarea id="customerNote" placeholder="Contoh: ambil sore..."></textarea>
+      </label>
+      <button class="primary full" id="confirmOrder">Buat Pesanan</button>
+    </div>
+  </div>
+
+  <div id="productModal" class="modal-wrap hidden">
+    <div class="modal">
+      <button class="modal-close" data-close="productModal">×</button>
+      <p class="eyebrow">Inventaris</p>
+      <h2 id="productModalTitle">Tambah Produk</h2>
+      <form id="productForm">
+        <input type="hidden" id="productId">
+        <label>Nama Produk<input id="productName" required placeholder="Contoh: Kopi Susu"></label>
+        <label>Harga<input id="productPrice" type="number" required placeholder="15000"></label>
+        <label>Stok<input id="productStock" type="number" required placeholder="20"></label>
+        <label>URL Foto Produk<input id="productImage" placeholder="https://..."></label>
+        <label>Kategori<input id="productCategory" placeholder="Minuman"></label>
+        <button class="primary full" type="submit">Simpan Produk</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
